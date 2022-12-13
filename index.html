@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Demo Validación Cuentas Bancarias - Prometeo Openbanking</title>
 
+    <link rel="icon" href="pics/favicon.png">
+    
     <link rel="stylesheet" href="css/queries.css" />
     <link rel="stylesheet" href="css/new-styles.css" />
 
@@ -100,11 +102,11 @@
               cuenta, entre otros)
             </p>
 
-            <form name="sign-up" class="cta-form" id="cta">
+            <div name="sign-up" class="cta-form" id="cta"> 
               <div class="API_Key">
                 <label for="API-Key">API Key</label>
                 <input
-                  id="API-Key"
+                  id="api_key_user"
                   type="password"
                   placeholder="Al menos 64 caracteres"
                   name="API-key"
@@ -143,7 +145,7 @@
                 <div>
                   <label for="full-name">Número de cuenta</label>
                   <input
-                    id="account-number"
+                    id="nro_cbu"
                     type="text"
                     placeholder="Ej: 2920521"
                     name="account-number"
@@ -155,7 +157,7 @@
                   Consultar &gt;
                 </button>
               </div>
-            </form>
+            </div>
           </div>
           <div class="cta-img-box" role="img"></div>
         </div>

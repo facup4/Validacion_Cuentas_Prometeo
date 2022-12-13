@@ -56,11 +56,11 @@ function validation() {
   var APIKEY = document.getElementById("api_key_user").value;
   console.log(APIKEY);
 
-  var URL_API = "https://validation.prometeoapi.com/validate-account/";
-  //var URL_API = "http://localhost:5005/validate-account/"
+  var URL_API = "https://back-end.demovalidacion.prometeoapi.com/validate-account/"
 
   console.log("Datos a usar: ", cuenta, codigo_banco, pais);
 
+  
   const options = {
     mode: "cors",
     headers: {
@@ -93,6 +93,39 @@ function validation() {
       }
     })
     .catch((err) => console.error(err));
+    
+/* 
+  //Segundo metodo para la request
+  var settings = {
+    url: URL_API,
+    method: "POST",
+    timeout: 0,
+    headers: {
+      "x-api-key": APIKEY,
+      "Content-Type": "application/x-www-form-urlencoded",
+      "Access-Control-Allow-Origin": "*",
+    },
+    data: {
+      nro_cbu: cuenta,
+      bk_code: codigo_banco,
+      country_code: pais,
+    },
+  };
+
+  $.ajax(settings).done(function (response) {
+    console.log(response);
+    try {
+      if (response.data.valid) {
+        swal("", JSON.stringify(response, null, 2), "success")
+      }
+      else {
+        swal("", JSON.stringify(response, null, 2), "error")
+      };
+    }
+    catch {
+      swal("", JSON.stringify(response, null, 2), "error")
+    }
+  });*/
 }
 
 function info_options() {
@@ -126,7 +159,7 @@ function info_options() {
     let options = select.getElementsByTagName("option");
 
     // Remove olds
-    for (var i = options.length; i--; ) {
+    for (var i = options.length; i--;) {
       select.removeChild(options[i]);
     }
 
@@ -140,18 +173,4 @@ function info_options() {
   cargar_bancos();
 }
 
-(function () {
-  var updateButton = document.getElementById("updateDetails");
-  var cancelButton = document.getElementById("cancel");
-  var favDialog = document.getElementById("APIKEY");
 
-  // Update button opens a modal dialog
-  updateButton.addEventListener("click", function () {
-    favDialog.showModal();
-  });
-
-  // Form cancel button closes the dialog box
-  cancelButton.addEventListener("click", function () {
-    favDialog.close();
-  });
-})();
