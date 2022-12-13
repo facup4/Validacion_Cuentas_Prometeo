@@ -57,8 +57,6 @@ function validation() {
   console.log(APIKEY);
 
   var URL_API = "https://back-end.demovalidacion.prometeoapi.com/validate-account/"
-  //var URL_API = "https://validation.prometeoapi.com/validate-account/";
-  //var URL_API = "http://localhost:5005/validate-account/"
 
   console.log("Datos a usar: ", cuenta, codigo_banco, pais);
 
@@ -96,7 +94,8 @@ function validation() {
     })
     .catch((err) => console.error(err));
     
-/* //Segundo metodo para la request
+/* 
+  //Segundo metodo para la request
   var settings = {
     url: URL_API,
     method: "POST",
