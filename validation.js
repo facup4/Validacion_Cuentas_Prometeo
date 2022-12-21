@@ -151,6 +151,18 @@ function info_options() {
       var json = { "---": "" };
     }
     addOptions("bkcode", json);
+
+    if (pais == "BR") {
+      var html = '<div id="br_branch_code"> <label for="full-name">Número de cuenta</label> <input id="nro_cbu" type="text" placeholder="Ej: 2920521" name="account-number" required /> </div> <div id="br_tax_id"> <label for="full-name">Número de cuenta</label> <input id="nro_cbu" type="text" placeholder="Ej: 2920521" name="account-number" required /> </div>';
+      document.getElementById('dinamic-div').insertAdjacentHTML('beforebegin', html);
+    }
+    else{
+      var br_branch_code = document.getElementById('br_branch_code');
+      br_branch_code.remove();
+      
+      var br_tax_id = document.getElementById('br_tax_id');
+      br_tax_id.remove();
+    }
   }
 
   // Rutina para agregar opciones a un <select>
@@ -172,5 +184,3 @@ function info_options() {
   }
   cargar_bancos();
 }
-
-
