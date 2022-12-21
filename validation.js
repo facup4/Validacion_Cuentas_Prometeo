@@ -59,8 +59,31 @@ function validation() {
   var URL_API = "https://back-end.demovalidacion.prometeoapi.com/validate-account/"
 
   console.log("Datos a usar: ", cuenta, codigo_banco, pais);
-
   
+  if (pais == "BR"){
+
+    var input_branch_code = document.getElementById("input_branch_code").value;
+
+    var input_tax_id = document.getElementById("input_tax_id").value;
+
+    body_request= {
+      nro_cbu: cuenta,
+      bk_code: codigo_banco,
+      country_code: pais,
+      branch_code: input_branch_code,
+      tax_id: input_tax_id
+    }
+  }
+  else{
+    body_request= {
+      nro_cbu: cuenta,
+      bk_code: codigo_banco,
+      country_code: pais,
+    }
+  }
+
+  console.log(body_request)
+
   const options = {
     mode: "cors",
     headers: {
@@ -72,11 +95,7 @@ function validation() {
       "Content-Type": "application/x-www-form-urlencoded",
       "X-API-Key": APIKEY,
     },
-    body: new URLSearchParams({
-      nro_cbu: cuenta,
-      bk_code: codigo_banco,
-      country_code: pais,
-    }),
+    body: new URLSearchParams(body_request),
   };
   fetch(URL_API, options)
     .then((response) => response.json())
@@ -152,10 +171,12 @@ function info_options() {
     }
     addOptions("bkcode", json);
 
+    //Agregar los divs con los label = input para cada campo de validación extra en brasil
     if (pais == "BR") {
-      var html = '<div id="br_branch_code"> <label for="full-name">Número de cuenta</label> <input id="nro_cbu" type="text" placeholder="Ej: 2920521" name="account-number" required /> </div> <div id="br_tax_id"> <label for="full-name">Número de cuenta</label> <input id="nro_cbu" type="text" placeholder="Ej: 2920521" name="account-number" required /> </div>';
+      var html = '<div id="br_branch_code"> <label for="full-name">Número de sucursal</label> <input id="input_branch_code" type="text" placeholder="Ej: 1234" name="input_branch_code" required /> </div> <div id="br_tax_id"> <label for="full-name">Número de TAX ID</label> <input id="input_tax_id" type="text" placeholder="Ej: 12.123.123/0001-40" name="input_tax_id" required /> </div>';
       document.getElementById('dinamic-div').insertAdjacentHTML('beforebegin', html);
     }
+    //Eliminar los divs con los label = input para cada campo de validación extra, si el pais seleccionado no es Brasil 
     else{
       var br_branch_code = document.getElementById('br_branch_code');
       br_branch_code.remove();
