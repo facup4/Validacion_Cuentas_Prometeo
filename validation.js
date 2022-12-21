@@ -40,16 +40,24 @@ function validation() {
   } else if (pais == "BR") {
     switch (banco) {
       case "Bradesco":
-        codigo_banco = "204";
+        codigo_banco = "59438325"; //204
         break;
 
       case "Santander":
-        codigo_banco = "033";
+        codigo_banco = "90400888"; //033
         break;
 
       case "Itau":
-        codigo_banco = "341";
+        codigo_banco = "60701190"; //341
         break;
+      
+      case "Caixa":
+        codigo_banco = "00360305"; //104
+        break;
+
+      case "Banco_do_Brasil":
+        codigo_banco = "00000000"; //001
+        break;  
     }
   }
 
@@ -57,10 +65,35 @@ function validation() {
   console.log(APIKEY);
 
   var URL_API = "https://back-end.demovalidacion.prometeoapi.com/validate-account/"
+  //var URL_API = "http://127.0.0.1:5000/validate-account/"
+
 
   console.log("Datos a usar: ", cuenta, codigo_banco, pais);
-
   
+  if (pais == "BR"){
+
+    var input_branch_code = document.getElementById("input_branch_code").value;
+
+    var input_tax_id = document.getElementById("input_tax_id").value;
+
+    body_request= {
+      nro_cbu: cuenta,
+      bk_code: codigo_banco,
+      country_code: pais,
+      branch_code: input_branch_code,
+      tax_id: input_tax_id
+    }
+  }
+  else{
+    body_request= {
+      nro_cbu: cuenta,
+      bk_code: codigo_banco,
+      country_code: pais,
+    }
+  }
+
+  console.log(body_request)
+
   const options = {
     mode: "cors",
     headers: {
@@ -72,11 +105,7 @@ function validation() {
       "Content-Type": "application/x-www-form-urlencoded",
       "X-API-Key": APIKEY,
     },
-    body: new URLSearchParams({
-      nro_cbu: cuenta,
-      bk_code: codigo_banco,
-      country_code: pais,
-    }),
+    body: new URLSearchParams(body_request),
   };
   fetch(URL_API, options)
     .then((response) => response.json())
@@ -146,11 +175,25 @@ function info_options() {
         Scotia: "",
       };
     } else if (pais == "BR") {
-      var json = { Bradesco: "", Santander: "", Itau: "" };
+      var json = { Bradesco: "", Santander: "", Itau: "", Caixa: "", Banco_do_Brasil: ""};
     } else {
       var json = { "---": "" };
     }
     addOptions("bkcode", json);
+
+    //Agregar los divs con los label = input para cada campo de validación extra en brasil
+    if (pais == "BR") {
+      var html = '<div id="br_branch_code"> <label for="full-name">Número de sucursal</label> <input id="input_branch_code" type="text" placeholder="Ej: 1234" name="input_branch_code" required /> </div> <div id="br_tax_id"> <label for="full-name">Número de documento</label> <input id="input_tax_id" type="text" placeholder="Ej: 12.123.123/0001-40" name="input_tax_id" required /> </div>';
+      document.getElementById('dinamic-div').insertAdjacentHTML('beforebegin', html);
+    }
+    //Eliminar los divs con los label = input para cada campo de validación extra, si el pais seleccionado no es Brasil 
+    else{
+      var br_branch_code = document.getElementById('br_branch_code');
+      br_branch_code.remove();
+      
+      var br_tax_id = document.getElementById('br_tax_id');
+      br_tax_id.remove();
+    }
   }
 
   // Rutina para agregar opciones a un <select>
@@ -172,5 +215,3 @@ function info_options() {
   }
   cargar_bancos();
 }
-
-
